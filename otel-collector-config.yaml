@@ -10,28 +10,49 @@ processors:
   batch:
     timeout: 1s
     send_batch_size: 1024
+  resource:
+    attributes:
+      - key: service.name
+        value: "product-inventory-demo"
+        action: upsert
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 1500
+    spike_limit_mib: 512
 
 exporters:
-  logging:
-    loglevel: debug
-  prometheus:
-    endpoint: "0.0.0.0:8889"
-  otlp:
-    endpoint: "otel-collector:4317"
+  otlp/swo:
+    endpoint: "otel.collector.na-01.cloud.solarwinds.com:443"
     tls:
-      insecure: true
+      insecure: false
+    headers:
+      "authorization": "Bearer ${API_TOKEN}"
+  debug:
+    verbosity: detailed
+
+extensions:
+  pprof:
+    endpoint: 0.0.0.0:1777
+  health_check:
+    endpoint: 0.0.0.0:13133
+  zpages:
+    endpoint: 0.0.0.0:55679
 
 service:
+  extensions: [health_check, pprof, zpages]
+  telemetry:
+    logs:
+      level: debug
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [batch]
-      exporters: [logging, otlp]
-    metrics:
-      receivers: [otlp]
-      processors: [batch]
-      exporters: [logging, prometheus]
+      processors: [memory_limiter, batch, resource]
+      exporters: [otlp/swo, debug]
     logs:
       receivers: [otlp]
-      processors: [batch]
-      exporters: [logging] 
+      processors: [memory_limiter, batch, resource]
+      exporters: [otlp/swo, debug]
+    metrics:
+      receivers: [otlp]
+      processors: [memory_limiter, batch, resource]
+      exporters: [otlp/swo, debug] 
