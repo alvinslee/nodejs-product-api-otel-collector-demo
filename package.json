@@ -1,0 +1,37 @@
+{
+  "name": "otel-product-inventory",
+  "version": "1.0.0",
+  "description": "OpenTelemetry-instrumented product inventory API",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "@opentelemetry/api": "^1.7.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.41.1",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.48.0",
+    "@opentelemetry/exporter-metrics-otlp-http": "^0.48.0",
+    "@opentelemetry/exporter-logs-otlp-http": "^0.48.0",
+    "@opentelemetry/instrumentation-express": "^0.35.0",
+    "@opentelemetry/instrumentation-http": "^0.48.0",
+    "@opentelemetry/instrumentation-pg": "^0.35.0",
+    "@opentelemetry/instrumentation-redis": "^0.35.0",
+    "@opentelemetry/resources": "^1.21.0",
+    "@opentelemetry/sdk-logs": "^0.48.0",
+    "@opentelemetry/sdk-metrics": "^1.21.0",
+    "@opentelemetry/sdk-node": "^0.48.0",
+    "@opentelemetry/sdk-trace-base": "^1.21.0",
+    "@opentelemetry/sdk-trace-node": "^1.21.0",
+    "@opentelemetry/semantic-conventions": "^1.21.0",
+    "express": "^4.18.2",
+    "pg": "^8.11.3",
+    "redis": "^4.6.13",
+    "dotenv": "^16.4.1",
+    "cors": "^2.8.5",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
+} 
